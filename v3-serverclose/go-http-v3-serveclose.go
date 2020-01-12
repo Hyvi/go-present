@@ -14,6 +14,7 @@ func main() {
 		WriteTimeout: 2 * time.Second,
 	}
 	quit := make(chan os.Signal)
+	// 为什么通过lsof -i:8080,  kill -9 杀掉进程的方式，没有任何的输出
 	signal.Notify(quit, os.Interrupt)
 
 	mux := http.NewServeMux()
@@ -22,6 +23,7 @@ func main() {
 
 	go func() {
 		<-quit
+		log.Println("server closed")
 		if err := server.Close(); err != nil {
 			log.Fatal("Close Server: ", err)
 		}
@@ -42,5 +44,7 @@ func main() {
 type dussHandler struct{}
 
 func (*dussHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("duss, version 3"))
+	if _, err := w.Write([]byte("duss, version 3")); err != nil {
+		log.Println("http Service Write Error")
+	}
 }
