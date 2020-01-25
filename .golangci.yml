@@ -2,4 +2,4 @@
 
 service:
   project-path: github.com/Hyvi/go-present
-  analyzed-paths: ./... 
+  analyzed-paths: main.go
