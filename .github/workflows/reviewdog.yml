@@ -11,5 +11,5 @@ jobs:
         uses: reviewdog/action-golangci-lint@v1
         # uses: docker://reviewdog/action-golangci-lint:v1 # pre-build docker image
         with:
-          github_token: ${{ secrets.github_token }}
+          github_token: ${{ secrets.githubtoken }}
           golangci_lint_flags: "main.go"
