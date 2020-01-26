@@ -1,5 +1,0 @@
-# https://github.com/golangci/golangci/wiki/Configuration
-
-service:
-  project-path: github.com/Hyvi/go-present
-  analyzed-paths: main.go
