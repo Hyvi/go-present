@@ -1,5 +1,5 @@
 // Emitting a cancellation event
-package main
+package context
 
 import (
 	"context"
