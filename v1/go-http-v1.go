@@ -8,7 +8,7 @@ import (
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter,
 		r *http.Request) {
-		i := 2
+		i := 4
 		i += 1
 		w.Write([]byte("hello, version 1"))
 	})
