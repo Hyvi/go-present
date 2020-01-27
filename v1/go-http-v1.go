@@ -13,6 +13,7 @@ func main() {
 		w.Write([]byte("hello, version 1"))
 	})
 	
+	fmt.Sprintf("%d")
 
 	log.Println("start http server ...")
 	log.Fatal(http.ListenAndServe(":8080", nil))
