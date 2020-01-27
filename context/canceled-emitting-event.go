@@ -34,6 +34,9 @@ func main() {
 			cancel()
 		}
 	}()
+	
+	i := 4 
+	i += 1 
 
 	fmt.Println("go context")
 	operation2(ctx)
