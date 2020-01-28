@@ -11,7 +11,7 @@ jobs:
         uses: Hyvi/action-golangci-lint@master
         # uses: docker://reviewdog/action-golangci-lint:v1 # pre-build docker image
         with:
-          github_token: ${{ secrets.githubtoken }}
+          github_token: ${{ secrets.github_token }}
           golangci_lint_flags: "-v ./..."
 
     
