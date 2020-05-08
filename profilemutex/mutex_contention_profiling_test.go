@@ -1,3 +1,5 @@
+//  https://making.pusher.com/go-tool-trace/
+// rykyll 关于pprof的文档
 package gomutex
 
 import (
@@ -48,22 +50,23 @@ var mu sync.Mutex
 
 func FactorsCount(n int64) {
 	m := make([]int64, n+1)
+	mu.Lock()
 	for _, f := range factors(n) {
-		mu.Lock()
 		m[f]++
-		mu.Unlock()
 	}
+	mu.Unlock()
 }
 
 func TestFactorsCount(t *testing.T) {
 
-	for i := 1; i < 1000000; i++ {
-		FactorsCount(int64(i))
+	for i := 1; i < 10000; i++ {
+		go FactorsCount(int64(i))
 	}
 }
+
 func BenchmarkFactorsCount(b *testing.B) {
 	for i := 1; i < b.N; i++ {
-		go FactorsCount(int64(i))
+		FactorsCount(int64(i))
 	}
 }
 
