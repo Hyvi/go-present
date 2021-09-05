@@ -4,5 +4,7 @@ go 1.14
 
 require (
 	github.com/gin-gonic/gin v1.5.0
-	golang.org/x/tools v0.0.0-20200113040837-eac381796e91 // indirect
+	github.com/golang/protobuf v1.5.0
+	github.com/prometheus/client_golang v1.11.0
+	google.golang.org/protobuf v1.27.1
 )
