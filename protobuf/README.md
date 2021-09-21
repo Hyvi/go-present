@@ -9,6 +9,10 @@
 
  generate the go (example.proto) file in the dir `out`
 
+## TODO 
+
+[Buf Tour](https://docs.buf.build/tour/introduction)
+
 ## 参考
 1. Google: Go Generated Code
 
