@@ -1,4 +1,4 @@
-package main
+package protobuf
 
 import (
 	"bytes"
@@ -116,5 +116,27 @@ Person ID: 1001
 				got[i],
 				want[i])
 		}
+	}
+}
+
+func Test_listPeople(t *testing.T) {
+	type args struct {
+		book *pb.AddressBook
+	}
+	tests := []struct {
+		name  string
+		args  args
+		wantW string
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			w := &bytes.Buffer{}
+			listPeople(w, tt.args.book)
+			if gotW := w.String(); gotW != tt.wantW {
+				t.Errorf("listPeople() = %v, want %v", gotW, tt.wantW)
+			}
+		})
 	}
 }

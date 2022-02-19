@@ -1,14 +1,10 @@
-package main
+package protobuf
 
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
-	"log"
-	"os"
 
 	pb "github.com/Hyvi/go-present/protobuf/out"
-	"github.com/golang/protobuf/proto"
 )
 
 func writePerson(w io.Writer, p *pb.Person) {
@@ -39,6 +35,7 @@ func listPeople(w io.Writer, book *pb.AddressBook) {
 
 // Main reads the entire address book from a file and prints all the
 // information inside.
+/** 
 func main() {
 	if len(os.Args) != 2 {
 		log.Fatalf("Usage:  %s ADDRESS_BOOK_FILE\n", os.Args[0])
@@ -59,3 +56,4 @@ func main() {
 
 	listPeople(os.Stdout, book)
 }
+**/

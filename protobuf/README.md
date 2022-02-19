@@ -9,6 +9,11 @@
 
  generate the go (example.proto) file in the dir `out`
 
+在 nvim 中执行单元测试(:copen 打开 quickfix 窗口）
+```
+:AsyncRun go test ./protobuf  -run TestWrite -v
+```
+
 ## TODO 
 
 [Buf Tour](https://docs.buf.build/tour/introduction)
