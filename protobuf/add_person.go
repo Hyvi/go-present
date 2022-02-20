@@ -1,4 +1,4 @@
-package protobuf
+package main
 
 import (
 	"bufio"
@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	pb "github.com/Hyvi/go-present/protobuf/out"
-	"github.com/golang/protobuf/proto"
+	"google.golang.org/protobuf/proto"
 )
 
 func promptForAddress(r io.Reader) (*pb.Person, error) {

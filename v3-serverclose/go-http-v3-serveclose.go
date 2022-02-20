@@ -13,7 +13,7 @@ func main() {
 		Addr:         ":8080",
 		WriteTimeout: 2 * time.Second,
 	}
-	quit := make(chan os.Signal)
+	quit := make(chan os.Signal, 1)
 	// 为什么通过lsof -i:8080,  kill -9 杀掉进程的方式，没有任何的输出
 	signal.Notify(quit, os.Interrupt)
 
