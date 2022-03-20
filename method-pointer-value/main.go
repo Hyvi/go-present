@@ -20,7 +20,7 @@ func (receiver T) valueMethod() {
 }
 func main() {
 	var (
-		val     T  = T{}
+		val     T  = T{s: "111"}
 		pointer *T = &val
 	)
 
