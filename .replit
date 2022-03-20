@@ -1,2 +1,2 @@
 language = "go"
-run = "go run slice-gc/main.go"
+run = "go run method-pointer-value/main.go"
