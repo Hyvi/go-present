@@ -10,6 +10,14 @@ def get_video_duration(filename):
     clip.close()
     return duration
 
+# ffmpeg subclip video file
+def ffmpeg_subclip_video_file(filename, t1, t2):
+    """
+    Ffmpeg subclip video file
+    """
+    subprocess.call(['ffmpeg', '-i', filename, '-ss', str(t1), '-to', str(t2), '-c', 'copy', '-y', filename.split('.')[0] + '_subclip.mp4'])
+    return
+
 #  video subclip
 def video_subclip(filename, t1, t2):
     """
