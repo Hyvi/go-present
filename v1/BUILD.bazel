@@ -1,0 +1,9 @@
+load("//:def.bzl", "go_binary")
+
+
+go_binary(
+    name = "v1_http_s",
+    srcs = [
+        "go-http-v1.go"
+    ]
+)
