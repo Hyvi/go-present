@@ -1,0 +1,11 @@
+load("//:def.bzl", "go_library")
+
+
+go_library(
+    name = "byte-2-string",
+    srcs = [
+        "main.go"
+    ],
+    visibility = ["//visibility:public"],
+    importpath = "github.com/Hyvi/go-present/byte-2-string",
+)
