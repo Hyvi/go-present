@@ -1,5 +1,2 @@
 .DS_Store
-bazel-go-present
-bazel-out
-bazel-bin
-bazel-testlogs
+bazel-*

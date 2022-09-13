@@ -2,6 +2,7 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 
 def go_rules_dependencies():
     """Declares external repositories that rules_go_simple depends on. This
+
     function should be loaded and called from WORKSPACE files."""
 
     # bazel_skylib is a set of libraries that are useful for writing
@@ -17,3 +18,16 @@ def _maybe(rule, name, **kwargs):
     """Declares an external repository if it hasn't been declared already."""
     if name not in native.existing_rules():
         rule(name = name, **kwargs)
+
+def _hello_repo_impl(ctx):
+    ctx.file("hello.txt", ctx.attr.message)
+    ctx.file("BUILD.bazel", 'exports_files(["hello.txt"])')
+
+hello_repo = repository_rule(
+    implementation = _hello_repo_impl,
+    attrs = {
+        "message": attr.string(
+            mandatory = True,
+        ),
+    },
+)
