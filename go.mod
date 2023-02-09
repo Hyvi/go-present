@@ -3,7 +3,7 @@ module github.com/Hyvi/go-present
 go 1.14
 
 require (
-	github.com/gin-gonic/gin v1.5.0
+	github.com/gin-gonic/gin v1.7.7
 	github.com/golang/protobuf v1.5.0
 	github.com/json-iterator/go v1.1.11 // indirect
 	github.com/kr/pretty v0.1.0 // indirect
