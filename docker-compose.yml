@@ -1,0 +1,4 @@
+include:
+  - rsshub/docker-compose.yml
+  - ical4notion/docker-compose.yml
+  - nginx/docker-compose.yml

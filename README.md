@@ -13,3 +13,10 @@
 - git push --recurse-submodules=on-demand 来推送父模块和子模块的修改
 - 通过git submodule update --remote --merge 来更新子模块的远程分支
 
+
+## gliese.cn 链路
+gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> localhost:8080
+plex.gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> localhost:32400
+s.gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> ubuntu@SERVER_IP:80
+
+本地尽量少部署服务，尽量使用云服务
