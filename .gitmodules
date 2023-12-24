@@ -1,3 +1,6 @@
 [submodule "ical4notion"]
 	path = ical4notion
 	url = git@github.com:Hyvi/ical4notion.git
+[submodule "elonws"]
+	path = elonws
+	url = git@github.com:Hyvi/elonws.git
