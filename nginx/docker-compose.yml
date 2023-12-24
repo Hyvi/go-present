@@ -7,7 +7,7 @@ services:
     image: nginx:alpine
     restart: always
     ports:
-      - 80:80
+      - "127.0.0.1:80:80"
     volumes:
       - ./conf.d:/etc/nginx/conf.d
       # - ./nginx/log:/var/log/nginx

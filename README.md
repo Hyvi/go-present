@@ -15,8 +15,10 @@
 
 
 ## gliese.cn 链路
-gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> localhost:8080
+d.gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> localhost:8080
+
 plex.gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> localhost:32400
+
 s.gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> ubuntu@SERVER_IP:80
 
 本地尽量少部署服务，尽量使用云服务
