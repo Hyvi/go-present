@@ -4,3 +4,6 @@
 [submodule "elonws"]
 	path = elonws
 	url = git@github.com:Hyvi/elonws.git
+[submodule "try-go-clean-template"]
+	path = try-go-clean-template
+	url = git@github.com:Hyvi/try-go-clean-template.git

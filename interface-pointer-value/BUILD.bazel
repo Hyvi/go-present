@@ -1,0 +1,14 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "interface-pointer-value_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/Hyvi/go-present/interface-pointer-value",
+    visibility = ["//visibility:private"],
+)
+
+go_binary(
+    name = "interface-pointer-value",
+    embed = [":interface-pointer-value_lib"],
+    visibility = ["//visibility:public"],
+)

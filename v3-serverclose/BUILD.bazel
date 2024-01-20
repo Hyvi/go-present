@@ -1,0 +1,14 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "v3-serverclose_lib",
+    srcs = ["go-http-v3-serveclose.go"],
+    importpath = "github.com/Hyvi/go-present/v3-serverclose",
+    visibility = ["//visibility:private"],
+)
+
+go_binary(
+    name = "v3-serverclose",
+    embed = [":v3-serverclose_lib"],
+    visibility = ["//visibility:public"],
+)

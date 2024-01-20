@@ -1,0 +1,6 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_test")
+
+go_test(
+    name = "profilemutex_test",
+    srcs = ["mutex_contention_profiling_test.go"],
+)

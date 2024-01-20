@@ -1,12 +1,8 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
-
-
 go_library(
     name = "byte-2-string",
-    srcs = [
-        "main.go"
-    ],
-    visibility = ["//visibility:public"],
+    srcs = ["main.go"],
     importpath = "github.com/Hyvi/go-present/byte-2-string",
+    visibility = ["//visibility:public"],
 )

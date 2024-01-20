@@ -1,0 +1,14 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "rune-vs-string_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/Hyvi/go-present/rune-vs-string",
+    visibility = ["//visibility:private"],
+)
+
+go_binary(
+    name = "rune-vs-string",
+    embed = [":rune-vs-string_lib"],
+    visibility = ["//visibility:public"],
+)

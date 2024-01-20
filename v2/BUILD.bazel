@@ -1,0 +1,14 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "go-present_lib",
+    srcs = ["go-http-v2.go"],
+    importpath = "github.com/Hyvi/go-present/v2",
+    visibility = ["//visibility:private"],
+)
+
+go_binary(
+    name = "v2",
+    embed = [":go-present_lib"],
+    visibility = ["//visibility:public"],
+)
