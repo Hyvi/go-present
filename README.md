@@ -25,3 +25,8 @@ plex.gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> localhost:32400
 s.gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> ubuntu@SERVER_IP:80
 
 本地尽量少部署服务，尽量使用云服务
+
+## ChangeLog
+- 2021-09-06: 项目初始化
+- 2024-06-22: 使用Github Copilot来
+
