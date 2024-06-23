@@ -10,8 +10,13 @@ services:
       - "127.0.0.1:80:80"
     volumes:
       - ./conf.d:/etc/nginx/conf.d
+      # htpasswd -bBc ../.htpasswd username password
+      - ../.htpasswd:/etc/nginx/.htpasswd
       # - ./nginx/log:/var/log/nginx
     depends_on:
       - rsshub
       - ical4notion
       - notebook
+      - rag
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

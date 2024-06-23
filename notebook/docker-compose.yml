@@ -13,6 +13,7 @@ services:
       - CHOWN_HOME=yes
       - CHOWN_HOME_OPTS='-R'
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
     command: "start-notebook.sh \
         --NotebookApp.password=${ACCESS_TOKEN} \
         --NotebookApp.base_url='/notebook/'"

@@ -2,4 +2,5 @@
 bazel-*
 data
 .env
+.htpasswd
 notebooks
