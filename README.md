@@ -1,11 +1,12 @@
 通过Bazel用来管理所有学习的monorepo工程
 
 ## Bazel
-bazel run //:gazelle -- update-repos -from_file=go.mod 
+bazel run //:gazelle -- update-repos -from_file=go.mod
 
 已有项目通过git submodule的方式来引入
 - ical4notion
-
+- auto-dev-rag-demo
+- elonws
 
 ## Submodule 如何提交代码
 - 通过git submodule foreach git pull 来更新子模块
@@ -24,7 +25,7 @@ plex.gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> localhost:32400
 
 s.gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> ubuntu@SERVER_IP:80
 
-本地尽量少部署服务，尽量使用云服务
+原则：本地尽量少部署服务，尽量使用云服务
 
 ## ChangeLog
 - 2021-09-06: 项目初始化
