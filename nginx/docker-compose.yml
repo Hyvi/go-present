@@ -13,10 +13,5 @@ services:
       # htpasswd -bBc ../.htpasswd username password
       - ../.htpasswd:/etc/nginx/.htpasswd
       # - ./nginx/log:/var/log/nginx
-    depends_on:
-      - rsshub
-      - ical4notion
-      - notebook
-      - rag
     extra_hosts:
       - "host.docker.internal:host-gateway"

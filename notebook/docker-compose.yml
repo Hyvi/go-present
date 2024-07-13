@@ -17,3 +17,5 @@ services:
     command: "start-notebook.sh \
         --NotebookApp.password=${ACCESS_TOKEN} \
         --NotebookApp.base_url='/notebook/'"
+    depends_on:
+      - nginx
