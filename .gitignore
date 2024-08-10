@@ -5,3 +5,4 @@ data
 .htpasswd
 notebooks
 .venv
+__pycache__
