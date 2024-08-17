@@ -2,6 +2,33 @@ import web
 import urllib.parse
 import subprocess, shlex
 import os
+import logging
+import sys
+
+# 配置日志记录
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s %(levelname)s %(message)s',
+    handlers=[
+        logging.FileHandler("/usr/local/var/log/my-downloader.log"),
+        logging.StreamHandler(sys.stdout)
+    ]
+)
+
+# 重定向 print 到日志
+class LoggerWriter:
+    def __init__(self, level):
+        self.level = level
+
+    def write(self, message):
+        if message.strip() != "":
+            self.level(message)
+
+    def flush(self):
+        pass
+
+sys.stdout = LoggerWriter(logging.info)
+sys.stderr = LoggerWriter(logging.error)
 
 # Get From Env MY_DOWNLOAD_SECRET
 secret=os.environ["MY_DOWNLOAD_SECRET"]
@@ -35,9 +62,9 @@ class hello:
         if '"' in data.file or '"' in data.url:
             return 'server err'
 
-        command = 'you-get -x 127.0.0.1:7890 -o %s --output-filename "%s" "%s"' % (download_dest_path, urllib.parse.unquote(data.file), urllib.parse.unquote(data.url))
+        command = '/usr/local/bin/you-get -x 127.0.0.1:7890 -o %s --output-filename "%s" "%s"' % (download_dest_path, urllib.parse.unquote(data.file), urllib.parse.unquote(data.url))
         if 'noproxy' in data:
-            command = 'you-get -o %s --output-filename "%s" "%s"' % (download_dest_path, urllib.parse.unquote(data.file), urllib.parse.unquote(data.url))
+            command = '/usr/local/bin/you-get -o %s --output-filename "%s" "%s"' % (download_dest_path, urllib.parse.unquote(data.file), urllib.parse.unquote(data.url))
         if data.file == 'bt':
             command = '/usr/local/opt/transmission-cli/bin/transmission-remote -a "%s"' % urllib.parse.unquote(data.url)
         print(command)
