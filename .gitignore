@@ -6,3 +6,4 @@ data
 notebooks
 .venv
 __pycache__
+frps/frps.toml

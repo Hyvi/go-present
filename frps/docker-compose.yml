@@ -1,0 +1,15 @@
+version: '3.9'
+# systemctl status frps.service
+# systemctl stop frps.service
+services:
+  frps:
+    container_name: frps
+    image: snowdreamtech/frps
+    restart: always
+    network_mode: host
+#   hostname: frps
+#   ports:
+      #- 7000:7000
+      #- 7500:7500
+    volumes:
+      - ./frps.toml:/etc/frp/frps.toml

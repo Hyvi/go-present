@@ -4,3 +4,4 @@ include:
   - nginx/docker-compose.yml
   - notebook/docker-compose.yml
   - auto-dev-rag-demo/docker-compose.yml
+  - frps/docker-compose.yml
