@@ -19,9 +19,9 @@ bazel run //:gazelle -- update-repos -from_file=go.mod
 
 
 ## gliese.cn 链路
-d.gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> ubuntu@server:8080 --> localhost:8080(fpr)
+d.gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> ubuntu@server:8080(frps) --> localhost:8080(frpc)
 
-plex.gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> ubuntu@SERVER_IP:32400 -> localhost:32400
+plex.gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> ubuntu@SERVER_IP:32400(frps) -> localhost:32400(frpc)
 
 s.gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> ubuntu@SERVER_IP:80
 
