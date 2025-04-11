@@ -37,4 +37,3 @@ use_repo(
     "com_github_golang_protobuf",
     "org_golang_google_protobuf",
 )
-
