@@ -9,6 +9,13 @@ go_library(
 
 go_binary(
     name = "bitwise-shift-operator-string",
-    embed = [":bitwise-shift-operator-string_lib"],
+    embed = [":lib"],
     visibility = ["//visibility:public"],
+)
+
+go_library(
+    name = "lib",
+    srcs = ["main.go"],
+    importpath = "",
+    visibility = ["//visibility:private"],
 )

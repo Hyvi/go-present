@@ -11,5 +11,5 @@ go_library(
     srcs = ["go-http-v1.go"],
     importpath = "github.com/Hyvi/go-present/v1",
     visibility = ["//visibility:private"],
-    deps = ["//byte-2-string"],
+    deps = ["//hello/byte-2-string"],
 )
