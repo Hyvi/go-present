@@ -4,7 +4,7 @@ services:
     image: jupyter/datascience-notebook
     container_name: notebook
     volumes:
-      - ../elonws/notebooks:/home/jovyan/work
+      - /home/ubuntu/data/notebooks:/home/jovyan/work
     environment:
       - JUPYTER_ENABLE_LAB=yes
       - GRANT_SUDO=yes

@@ -1,6 +1,9 @@
+load("@protobuf//bazel:proto_library.bzl", "proto_library")
+
+# gazelle:resolve proto github.com/Hyvi/go-present/protobuf/out //hello/protobuf:out_go_proto
+# gazelle:resolve go github.com/Hyvi/go-present/protobuf/out //hello/protobuf:out_go_proto
 load("@rules_go//go:def.bzl", "go_binary", "go_library", "go_test")
 load("@rules_go//proto:def.bzl", "go_proto_library")
-load("@protobuf//bazel:proto_library.bzl", "proto_library")
 
 
 go_library(
