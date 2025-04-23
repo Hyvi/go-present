@@ -17,6 +17,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'  # 递归检出所有子模块
+          fetch-depth: 1  # 可选：如果需要浅克隆
       - uses: bazel-contrib/setup-bazel@0.14.0
         with:
           bazelisk-cache: true
