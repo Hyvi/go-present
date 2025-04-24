@@ -1,9 +1,9 @@
 [submodule "ical4notion"]
 	path = ical4notion
-	url = git@github.com:Hyvi/ical4notion.git
+	url = https://www.github.com/Hyvi/ical4notion.git
 [submodule "try-go-clean-template"]
 	path = try-go-clean-template
-	url = git@github.com:Hyvi/try-go-clean-template.git
+	url = https://www.github.com/Hyvi/try-go-clean-template.git
 [submodule "auto-dev-rag-demo"]
 	path = auto-dev-rag-demo
-	url = git@github.com:Hyvi/auto-dev-rag-demo.git
+	url = https://www.github.com/Hyvi/auto-dev-rag-demo.git
