@@ -14,7 +14,10 @@ go_library(
     ],
     importpath = "github.com/Hyvi/go-present/protobuf",
     visibility = ["//visibility:private"],
-    deps = ["@org_golang_google_protobuf//proto"],
+    deps = [
+        "@org_golang_google_protobuf//proto",
+        ":out_go_proto",  # 添加对生成的 protobuf 代码的依赖
+    ],
 )
 
 go_binary(
