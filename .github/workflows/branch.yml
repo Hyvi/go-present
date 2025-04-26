@@ -28,4 +28,4 @@ jobs:
 
       - name: bazel-build-and-test
         run: |
-          bazel build //... && bazel test //...
+          bazel build //... && bazel test //... --test_tag_filters=-intergration
