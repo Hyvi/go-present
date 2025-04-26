@@ -37,7 +37,7 @@ proto_library(
     srcs = ["addressbook.proto"],
     visibility = ["//visibility:public"],
     deps = [
-        "@com_google_protobuf//:timestamp_proto",  # 添加 timestamp.proto 依赖
+        "@protobuf//:timestamp_proto",  # 修改依赖为 @protobuf
     ],
 )
 
