@@ -15,3 +15,8 @@ services:
       # - ./nginx/log:/var/log/nginx
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    depends_on:
+      - notebook
+      - rsshub
+      - ical4notion
+      - rag

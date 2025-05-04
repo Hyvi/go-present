@@ -3,6 +3,7 @@ services:
   notebook:
     image: jupyter/datascience-notebook
     container_name: notebook
+    restart: always
     volumes:
       - /home/ubuntu/data/notebooks:/home/jovyan/work
     environment:
@@ -17,5 +18,3 @@ services:
     command: "start-notebook.sh \
         --NotebookApp.password=${ACCESS_TOKEN} \
         --NotebookApp.base_url='/notebook/'"
-    depends_on:
-      - nginx
