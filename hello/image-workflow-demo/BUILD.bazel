@@ -1,0 +1,14 @@
+load("@rules_go//go:def.bzl", "go_binary")
+# Define a filegroup to include all .jpg files in images/
+filegroup(
+    name = "images",
+    srcs = glob(["images/*.jpg"]),  # Matches all .jpg files in images/
+)
+
+go_binary(
+    name = "image-workflow-demo",
+    visibility = ["//visibility:public"],
+    srcs = ["main.go"],
+#     data = [":images"],  # Reference the filegroup
+    data = ["images/sample1.jpg"],
+)
