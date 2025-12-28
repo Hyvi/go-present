@@ -16,7 +16,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
-      - notebook
+      # - notebook
       - rsshub
       - ical4notion
-      - rag
+      # - rag

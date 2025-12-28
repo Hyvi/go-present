@@ -1,6 +1,6 @@
 include:
   - rsshub/docker-compose.yml
-  # - ical4notion/docker-compose.yml
+  - ical4notion/docker-compose.yml
   - nginx/docker-compose.yml
   # - notebook/docker-compose.yml
   # - auto-dev-rag-demo/docker-compose.yml
