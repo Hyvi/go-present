@@ -24,9 +24,9 @@ bazel run  //hello/v1:v1_http_s
 
 
 ## gliese.cn 链路
-d.gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> ubuntu@server:8080(frps) --> localhost:8080(frpc)
+~~d.gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> ubuntu@server:8080(frps) --> localhost:8080(frpc)~~
 
-plex.gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> ubuntu@SERVER_IP:32400(frps) -> localhost:32400(frpc)
+~~plex.gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> ubuntu@SERVER_IP:32400(frps) -> localhost:32400(frpc)~~
 
 s.gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> ubuntu@SERVER_IP:80
 
