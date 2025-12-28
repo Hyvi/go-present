@@ -36,3 +36,4 @@ s.gliese.cn -(cloudflare)-> Tunnels -(cloudflare)-> ubuntu@SERVER_IP:80
 - 2021-09-06: 项目初始化
 - 2024-06-22: 使用Github Copilot来
 - 2025-04-13: 使用Bazel来管理所有学习的monorepo工程
+- 2025-12-28: 使用gemini，服务器上无法使用code-server，只能在本地安装
