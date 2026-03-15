@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  sing-box:
+    image: ghcr.io/sagernet/sing-box:latest
+    container_name: sing-box
+    restart: unless-stopped
+    network_mode: "host"
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - "/dev/net/tun:/dev/net/tun"
+    volumes:
+      # 将宿主机的配置文件目录映射到容器内的 /etc/sing-box
+      - /mnt/mydata/elonws/05.tools/sing-box/:/etc/sing-box/
+    command: run -c /etc/sing-box/config.json
