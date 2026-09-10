@@ -1,0 +1,724 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dune：智能体友好型架构与 Agent 工程化实践总结</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@700;900&family=Noto+Sans+SC:wght@400;500;700;900&family=Oswald:wght@500;700&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --paper: #f6f4ee;
+        --ink: #141414;
+        --ink-light: #2b2b2b;
+        --muted: #62605b;
+        --accent: #c83c23;
+        --accent-soft: rgba(200, 60, 35, 0.08);
+        --tint: rgba(20, 20, 20, 0.035);
+        --tint-strong: rgba(20, 20, 20, 0.06);
+        --border: rgba(20, 20, 20, 0.14);
+        --border-dark: #141414;
+        --card-padding: 56px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--paper);
+        width: 1500px;
+        height: 2000px;
+        overflow: hidden;
+      }
+
+      body {
+        font-family: "Inter", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: var(--ink);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .frame {
+        width: 1500px;
+        height: 2000px;
+        position: relative;
+      }
+
+      .card {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background: var(--paper);
+        padding: var(--card-padding);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+      }
+
+      /* Noise Texture Overlay */
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.035;
+        background-image:
+          radial-gradient(circle at 25% 25%, #000 0.6px, transparent 0.7px),
+          radial-gradient(circle at 75% 75%, #000 0.5px, transparent 0.6px);
+        background-size: 8px 8px, 12px 12px;
+        z-index: 0;
+      }
+
+      .content-layer {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: space-between;
+      }
+
+      /* Background Giant Graphic Accent */
+      .bg-anchor {
+        position: absolute;
+        right: 48px;
+        top: 60px;
+        font-family: "Oswald", "Inter", sans-serif;
+        font-size: 210px;
+        font-weight: 700;
+        line-height: 0.75;
+        color: rgba(20, 20, 20, 0.038);
+        pointer-events: none;
+        letter-spacing: -0.05em;
+        z-index: 0;
+        text-transform: uppercase;
+      }
+
+      /* 1. Header & Top Meta */
+      .top-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid var(--border-dark);
+        padding-bottom: 12px;
+        margin-bottom: 24px;
+      }
+
+      .meta-tag {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+
+      .meta-source {
+        font-family: "Inter", sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+
+      /* 2. Hero Section */
+      .hero {
+        margin-bottom: 24px;
+      }
+
+      .hero-tagline {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        background: var(--ink);
+        color: #fff;
+        padding: 5px 12px;
+        margin-bottom: 16px;
+        text-transform: uppercase;
+      }
+
+      .hero-title {
+        font-family: "Noto Serif SC", serif;
+        font-size: 60px;
+        font-weight: 900;
+        line-height: 1.12;
+        letter-spacing: -0.03em;
+        color: var(--ink);
+        margin: 0 0 16px 0;
+        max-width: 1100px;
+      }
+
+      .hero-desc {
+        font-size: 19px;
+        line-height: 1.55;
+        color: var(--muted);
+        margin: 0 0 20px 0;
+        max-width: 1200px;
+      }
+
+      .hero-desc strong {
+        color: var(--ink);
+        font-weight: 700;
+      }
+
+      /* Core Mantra Quote */
+      .mantra-banner {
+        background: var(--ink);
+        color: #fff;
+        padding: 18px 24px;
+        border-left: 6px solid var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .mantra-text {
+        font-family: "Noto Serif SC", serif;
+        font-size: 21px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        line-height: 1.35;
+      }
+
+      .mantra-badge {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        color: var(--accent);
+        background: rgba(255, 255, 255, 0.1);
+        padding: 4px 10px;
+        white-space: nowrap;
+      }
+
+      /* Stats / Pill Strip */
+      .stats-strip {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin: 20px 0;
+      }
+
+      .stat-pill {
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.6);
+        padding: 12px 18px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .stat-num {
+        font-family: "Oswald", "Inter", sans-serif;
+        font-size: 32px;
+        font-weight: 700;
+        line-height: 1;
+        color: var(--accent);
+      }
+
+      .stat-label {
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 1.3;
+        color: var(--ink);
+      }
+
+      .stat-sub {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--muted);
+      }
+
+      /* 3. Section: Dune 3 Principles */
+      .section-block {
+        margin-bottom: 22px;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .section-num {
+        font-family: "Oswald", sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--accent);
+      }
+
+      .section-title {
+        font-family: "Noto Serif SC", serif;
+        font-size: 22px;
+        font-weight: 900;
+        letter-spacing: -0.01em;
+        margin: 0;
+      }
+
+      .section-line {
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      .principles-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+
+      .principle-card {
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid var(--border);
+        border-top: 4px solid var(--ink);
+        padding: 18px 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .principle-card.highlight {
+        border-top-color: var(--accent);
+        background: #fff;
+      }
+
+      .p-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 10px;
+      }
+
+      .p-index {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--accent);
+      }
+
+      .p-name {
+        font-size: 17px;
+        font-weight: 800;
+        line-height: 1.35;
+        margin: 0 0 8px 0;
+        color: var(--ink);
+      }
+
+      .p-body {
+        font-size: 14.5px;
+        line-height: 1.5;
+        color: var(--muted);
+        margin: 0 0 12px 0;
+      }
+
+      .p-target {
+        font-size: 13px;
+        line-height: 1.45;
+        background: var(--tint);
+        padding: 8px 10px;
+        border-left: 3px solid var(--accent);
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      /* 4. Defense Hierarchy Bar */
+      .defense-bar {
+        background: #fff;
+        border: 1px solid var(--border);
+        padding: 14px 20px;
+        margin-bottom: 22px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .defense-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent);
+        white-space: nowrap;
+      }
+
+      .defense-flow {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 1;
+        font-size: 14px;
+      }
+
+      .df-item {
+        padding: 5px 10px;
+        border-radius: 2px;
+        font-weight: 700;
+      }
+
+      .df-hard {
+        background: var(--ink);
+        color: #fff;
+      }
+
+      .df-arrow {
+        color: var(--accent);
+        font-weight: 900;
+      }
+
+      .df-soft {
+        background: var(--tint-strong);
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      .df-tip {
+        font-size: 12px;
+        color: var(--muted);
+        margin-left: auto;
+        white-space: nowrap;
+      }
+
+      /* 5. Section: 10 Engineering Practices */
+      .practices-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      .practice-group {
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid var(--border);
+        padding: 16px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .pg-title {
+        font-family: "Noto Serif SC", serif;
+        font-size: 16px;
+        font-weight: 900;
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-bottom: 1px dashed var(--border);
+        padding-bottom: 6px;
+        margin: 0;
+      }
+
+      .pg-title span {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        color: var(--accent);
+      }
+
+      .practice-item {
+        display: flex;
+        gap: 10px;
+        font-size: 14px;
+        line-height: 1.48;
+      }
+
+      .pi-num {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--accent);
+        min-width: 20px;
+        padding-top: 1px;
+      }
+
+      .pi-content {
+        color: var(--muted);
+      }
+
+      .pi-content strong {
+        color: var(--ink);
+        font-weight: 700;
+      }
+
+      /* 6. Footer */
+      .card-footer {
+        border-top: 2px solid var(--border-dark);
+        padding-top: 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .footer-brand {
+        font-family: "JetBrains Mono", monospace;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        color: var(--ink);
+      }
+
+      .footer-source {
+        font-family: "Inter", sans-serif;
+      }
+
+      .footer-ratio {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        background: var(--tint);
+        padding: 2px 8px;
+        border: 1px solid var(--border);
+      }
+
+      /* Mobile Fallback for standard browsers */
+      @media (max-width: 640px) {
+        html,
+        body {
+          width: 100%;
+          height: auto;
+          overflow: auto;
+        }
+
+        .frame {
+          width: 100%;
+          height: auto;
+        }
+
+        .card {
+          height: auto;
+          min-height: 100vh;
+          padding: 24px 18px;
+        }
+
+        .hero-title {
+          font-size: 38px;
+        }
+
+        .principles-grid,
+        .practices-grid,
+        .stats-strip {
+          grid-template-columns: 1fr;
+        }
+
+        .defense-bar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="frame">
+      <article class="card">
+        <div class="bg-anchor" aria-hidden="true">DUNE</div>
+        <div class="content-layer">
+          
+          <!-- Top Meta -->
+          <header class="top-meta">
+            <span class="meta-tag">ARCHITECTURE PHILOSOPHY // AI AGENT FRAMEWORK</span>
+            <span class="meta-source">Dune: Agent-friendly Architecture</span>
+          </header>
+
+          <!-- Hero Zone -->
+          <section class="hero">
+            <div class="hero-tagline">ARCHITECTURAL SYSTEM REVIEW</div>
+            <h1 class="hero-title">Dune：智能体友好型架构与 Agent 工程化实践总结</h1>
+            <p class="hero-desc">
+              专为 <strong>AI 编码智能体（Agent）与多人协作</strong>设计的架构哲学。系统预设 Agent 仅具备局部上下文，通过<strong>结构化刚性约束</strong>与<strong>自动化防御机制</strong>确保全局一致性、可维护性与系统演进安全。
+            </p>
+            <div class="mantra-banner">
+              <div class="mantra-text">“ 让正确的路径更简单，让错误的路径直接失败，让例外必须被严格审查。”</div>
+              <div class="mantra-badge">CORE PRINCIPLE</div>
+            </div>
+          </section>
+
+          <!-- Stats / Indicator Strip -->
+          <div class="stats-strip">
+            <div class="stat-pill">
+              <div class="stat-num">03</div>
+              <div>
+                <div class="stat-label">核心架构原则</div>
+                <div class="stat-sub">低决策 · 自动熔断 · 狭窄审查</div>
+              </div>
+            </div>
+            <div class="stat-pill">
+              <div class="stat-num">05</div>
+              <div>
+                <div class="stat-label">分层防御底线</div>
+                <div class="stat-sub">架构 > CI > 规则 > Skill > 风格</div>
+              </div>
+            </div>
+            <div class="stat-pill">
+              <div class="stat-num">10</div>
+              <div>
+                <div class="stat-label">工程落地法则</div>
+                <div class="stat-sub">信任验证 · Skill测试 · Token复利</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 1: Dune 3 Principles -->
+          <section class="section-block">
+            <div class="section-header">
+              <span class="section-num">PART 01</span>
+              <h2 class="section-title">Dune 核心三原则</h2>
+              <div class="section-line"></div>
+            </div>
+            <div class="principles-grid">
+              <div class="principle-card">
+                <div>
+                  <div class="p-head">
+                    <span class="p-index">RULE 01</span>
+                  </div>
+                  <h3 class="p-name">常规路径决策成本更低</h3>
+                  <p class="p-body">
+                    让“正确的做法”更简单显见。正常路径自动化且顺畅，捷径充满阻力甚至被系统机制阻止。
+                  </p>
+                </div>
+                <div class="p-target">目标：让系统自动引导 Agent 做对的事，而非依赖其理解复杂架构。</div>
+              </div>
+
+              <div class="principle-card highlight">
+                <div>
+                  <div class="p-head">
+                    <span class="p-index">RULE 02</span>
+                  </div>
+                  <h3 class="p-name">禁止的依赖自动触发失败</h3>
+                  <p class="p-body">
+                    任何越界调用或破坏模块隔离的行为必须立刻失败。通过编译器、Lint 和 CI 自动 enforce 架构。
+                  </p>
+                </div>
+                <div class="p-target">目标：防止 Agent 在局部上下文中做出看似能工作却破坏架构的代码。</div>
+              </div>
+
+              <div class="principle-card">
+                <div>
+                  <div class="p-head">
+                    <span class="p-index">RULE 03</span>
+                  </div>
+                  <h3 class="p-name">异常狭窄明确且作为架构审查</h3>
+                  <p class="p-body">
+                    例外绝不能随意产生或隐式蔓延。影响必须就地收敛，显式标注，任何例外都必须作为架构事件审查。
+                  </p>
+                </div>
+                <div class="p-target">目标：避免例外变成隐性耦合点，彻底杜绝技术债务污染主路径。</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Section 2: Defense Hierarchy -->
+          <div class="defense-bar">
+            <span class="defense-label">多层约束体系</span>
+            <div class="defense-flow">
+              <span class="df-item df-hard">代码架构</span>
+              <span class="df-arrow">></span>
+              <span class="df-item df-hard">静态分析 / 编译器 / CI</span>
+              <span class="df-arrow">></span>
+              <span class="df-item df-soft">审查规则</span>
+              <span class="df-arrow">></span>
+              <span class="df-item df-soft">Skills</span>
+              <span class="df-arrow">></span>
+              <span class="df-item df-soft">风格指南</span>
+            </div>
+            <div class="df-tip">前两者为违规必阻断的<strong>硬底线</strong>；后三者为辅助引导的<strong>软约束</strong></div>
+          </div>
+
+          <!-- Section 3: 10 Practices -->
+          <section class="section-block">
+            <div class="section-header">
+              <span class="section-num">PART 02</span>
+              <h2 class="section-title">AI Agent 规模化落地：10 条实践总结</h2>
+              <div class="section-line"></div>
+            </div>
+            <div class="practices-grid">
+              
+              <!-- Group A -->
+              <div class="practice-group">
+                <h4 class="pg-title"><span>MODULE A</span> 信任建立与闭环验证</h4>
+                <div class="practice-item">
+                  <span class="pi-num">01</span>
+                  <div class="pi-content"><strong>信任是核心前提</strong>：通过实践积累体感并逐级授权，才能从管理 1~3 个 Agent 扩展到成百上千个并发协同。</div>
+                </div>
+                <div class="practice-item">
+                  <span class="pi-num">02</span>
+                  <div class="pi-content"><strong>自主闭环打破瓶颈</strong>：赋予 Agent 运行与验证能力（CDP、快照、模拟器），否则人类会成为吞吐量天花板。</div>
+                </div>
+                <div class="practice-item">
+                  <span class="pi-num">03</span>
+                  <div class="pi-content"><strong>用户视角精准定位</strong>：针对复杂应用编写用户视角功能地图，或通过截图/录屏反馈 Bug，辅助 Agent 快速定位根因。</div>
+                </div>
+              </div>
+
+              <!-- Group B -->
+              <div class="practice-group">
+                <h4 class="pg-title"><span>MODULE B</span> Skill 研发与质量工程</h4>
+                <div class="practice-item">
+                  <span class="pi-num">04</span>
+                  <div class="pi-content"><strong>Skill 是高价值 Token</strong>：持续观察 Agent 失败原因，将隐性约束与业务上下文提炼为可复用的 Markdown 指令集。</div>
+                </div>
+                <div class="practice-item">
+                  <span class="pi-num">05</span>
+                  <div class="pi-content"><strong>像对待业务代码一样测试 Skill</strong>：制定评分 Rubric，子 Agent 执行测试，独立 Agent 交叉打分，循环优化直到满分。</div>
+                </div>
+                <div class="practice-item">
+                  <span class="pi-num">06</span>
+                  <div class="pi-content"><strong>从本地走向云端自动化</strong>：本地摸索沉淀规则后推向云端，自动拉起桌面复现 Bug 并确认主干修复，全面释放人力。</div>
+                </div>
+              </div>
+
+              <!-- Group C -->
+              <div class="practice-group">
+                <h4 class="pg-title"><span>MODULE C</span> 刚性架构与约束防御</h4>
+                <div class="practice-item">
+                  <span class="pi-num">07</span>
+                  <div class="pi-content"><strong>早期硬规范阻断腐化</strong>：原型项目无规范会诱导 Agent 频繁走捷径，必须在早期设计硬性约束以支撑大规模自动化。</div>
+                </div>
+                <div class="practice-item">
+                  <span class="pi-num">08</span>
+                  <div class="pi-content"><strong>规范硬编码进架构与 CI</strong>：靠文档和人工 Review 约束 Agent 极不可靠，必须将防御规则直接写进编译器与 CI 门禁。</div>
+                </div>
+                <div class="practice-item">
+                  <span class="pi-num">09</span>
+                  <div class="pi-content"><strong>构建多层防御梯队</strong>：架构 > 编译/CI > 审查规则 > Skills > 风格指南。前两者是刚性底线，后三者为易遗忘的软引导。</div>
+                </div>
+              </div>
+
+              <!-- Group D -->
+              <div class="practice-group">
+                <h4 class="pg-title"><span>MODULE D</span> 前期重投与组织飞轮</h4>
+                <div class="practice-item">
+                  <span class="pi-num">10</span>
+                  <div class="pi-content"><strong>前期 Token 投资的复利</strong>：前期重投在架构和测试上能节省数月/数年维护成本；坚固底座还能让 PM、设计师直接通过 Agent 提交生产代码，形成全员飞轮。</div>
+                </div>
+                <div class="practice-item" style="margin-top: 4px; padding: 6px 10px; background: var(--tint); border-left: 2px solid var(--accent);">
+                  <span class="pi-num" style="color: var(--ink);">✦</span>
+                  <div class="pi-content" style="font-size: 13px;"><strong>架构启示</strong>：面对 AI 时代的代码爆发，最有效的管理手段不是“人盯代码”，而是“架构管系统”。</div>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- Footer -->
+          <footer class="card-footer">
+            <span class="footer-brand">EDITORIAL INFO CARD // DUNE ARCHITECTURE</span>
+            <span class="footer-source">来源参考：X / @kingwilliam_</span>
+            <span class="footer-ratio">PRESET: 3:4 (1500 × 2000 PX)</span>
+          </footer>
+
+        </div>
+      </article>
+    </main>
+  </body>
+</html>
